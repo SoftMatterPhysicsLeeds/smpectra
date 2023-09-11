@@ -1,11 +1,27 @@
-from seabreeze.spectrometers import Spectrometer
-import matplotlib.pyplot as plt
+import seabreeze
+# pyseabreeze backend doesn't work - not sure why. Doesn't matter yet... 
+from seabreeze.spectrometers import Spectrometer, list_devices
+import dearpygui.dearpygui as dpg
+from ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
+
+if __name__ == "__main__":
+
+    dpg.create_context()
+
+    dpg.create_viewport(
+        title = "SMPectra",
+        width=VIEWPORT_WIDTH,
+        height=DRAW_HEIGHT)
+    
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    ui = SMPectraUI()
+    while dpg.is_dearpygui_running():
+        dpg.render_dearpygui_frame()
+
+    dpg.destroy_context()
 
 
-spec = Spectrometer.from_serial_number("HR4C3262")
 
-fig, ax = plt.subplots()
 
-ax.plot(spec.wavelengths(), spec.intensities())
 
-plt.show()

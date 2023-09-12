@@ -33,9 +33,19 @@ class SMPectraUI:
                     label="Apply",
                     callback=self._set_integration_time)
             with dpg.group(horizontal=True):
+                self.set_dark_state_button = dpg.add_button(
+                    label="Set Dark State",
+                    callback=self.set_dark_state)
+            with dpg.group(horizontal=True):
+                self.set_bright_state_button = dpg.add_button(
+                    label="Set Bright State",
+                    callback=self.set_bright_state)
+
+            with dpg.group(horizontal=True):
                 self.get_spectra_button = dpg.add_button(
                     label="Get Spectrum",
                     callback=self._get_spectrum)
+
             with dpg.group(horizontal=True):
                 self.save_spectra_button = dpg.add_button(
                     label="Save Spectrum",
@@ -60,7 +70,6 @@ class SMPectraUI:
             ):
                 dpg.add_file_extension(".txt")
 
-            
     def setup_graph_window(self):
         with dpg.window(label="Spectrum",
                         pos=[VIEWPORT_WIDTH/4, 0],
@@ -75,12 +84,19 @@ class SMPectraUI:
                 self.intensity_axis = dpg.add_plot_axis(
                     dpg.mvYAxis, label="intensity")
 
-                self.spectrum = dpg.add_line_series(
+                self.spectrum_graph = dpg.add_line_series(
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
 
+    def set_dark_state(self):
+        self.dark_state = self.spectrometer.spectrum()
+
+    def set_bright_state(self):
+        self.bright_state = self.spectrometer.spectrum()
+
     def _get_spectrum(self):
-        wavelengths, intensities = self.spectrometer.spectrum()
-        dpg.set_value(self.spectrum, [wavelengths, intensities])
+        self.spectrum = self.spectrometer.spectrum()
+        dpg.set_value(self.spectrum_graph, [
+                      self.spectrum[0], self.spectrum[1]])
         dpg.fit_axis_data(self.intensity_axis)
         dpg.fit_axis_data(self.wavelength_axis)
 

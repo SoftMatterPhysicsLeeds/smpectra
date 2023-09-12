@@ -11,6 +11,7 @@ class SMPectraUI:
     def __init__(self):
         self.setup_control_window()
         self.setup_graph_window()
+<<<<<<< HEAD
         self.spectrometer_attached = False
         try:
             self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
@@ -19,6 +20,10 @@ class SMPectraUI:
         except SeaBreezeError:
             print("Could not find spectrometer")
 
+=======
+        self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
+        self.spectrometer.integration_time_micros(100000)
+>>>>>>> 63f7846f81d265785ab792cded17f71186cb7ee1
     def setup_control_window(self):
         with dpg.window(label="Control",
                         pos=[0, 0],
@@ -60,6 +65,13 @@ class SMPectraUI:
             ):
                 dpg.add_file_extension(".txt")
 
+            with dpg.group(horizontal=True):
+                dpg.add_text("Integration\n time (us): ")
+                self.int_time_input = dpg.add_input_int(default_value = 100000, width = 100)
+                self.apply_int_time = dpg.add_button(
+                    label="Apply",
+                    callback=self._set_integration_time)
+
     def setup_graph_window(self):
         with dpg.window(label="Spectrum",
                         pos=[VIEWPORT_WIDTH/4, 0],
@@ -78,6 +90,7 @@ class SMPectraUI:
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
 
     def _get_spectrum(self):
+<<<<<<< HEAD
         self.spectrum = self.spectrometer.spectrum()
         dpg.set_value(self.spectrum, [self.spectrum[0], self.spectrum[1]])
         dpg.fit_axis_data(self.intensity_axis)
@@ -96,3 +109,13 @@ class SMPectraUI:
 
 def _file_saveas_callback(sender, app_data, output_file_path):
     dpg.set_value(output_file_path, app_data["file_path_name"])
+=======
+        wavelengths, intensities = self.spectrometer.spectrum()
+        dpg.set_value(self.spectrum, [wavelengths, intensities])
+        dpg.fit_axis_data(self.intensity_axis)
+        dpg.fit_axis_data(self.wavelength_axis)
+
+    def _set_integration_time(self):
+        integration_time = dpg.get_value(self.int_time_input)
+        self.spectrometer.integration_time_micros(integration_time)
+>>>>>>> 63f7846f81d265785ab792cded17f71186cb7ee1

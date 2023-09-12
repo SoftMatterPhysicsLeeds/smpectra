@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+import numpy as np
 from seabreeze.spectrometers import Spectrometer
 from seabreeze.cseabreeze._wrapper import SeaBreezeError
 from smpectra.utils import save_spectrum
@@ -59,7 +60,7 @@ class SMPectraUI:
 
             with dpg.group(horizontal=True):
                 self.output_file_path = dpg.add_input_text(
-                    default_value="results.json"
+                    default_value="results.txt"
                 )
                 self.browse_button = dpg.add_button(
                     label="Browse", callback=lambda: dpg.show_item("file_dialog_id")
@@ -94,12 +95,15 @@ class SMPectraUI:
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
 
     def normalise_spectrum(self):
-        if self.dark_state_set and self.light_state_set:
+        if self.dark_state_set and self.bright_state_set:
             bright_bg_removed = self.bright_state[1] - self.dark_state[1]
             spec_bg_removed = self.spectrum[1] - self.dark_state[1]
-
-            self.normalised_spectrum = spec_bg_removed/bright_bg_removed
-            dpg.set_value(self.spectrum_graph, [self.spectrum[0], self.normalised_spectrum])
+            self.normalised_spectrum = np.divide(spec_bg_removed, bright_bg_removed, out=np.zeros_like(
+                spec_bg_removed), where=bright_bg_removed != 0)
+            dpg.set_value(self.spectrum_graph, [
+                          self.spectrum[0], self.normalised_spectrum])
+            dpg.fit_axis_data(self.intensity_axis)
+            dpg.fit_axis_data(self.wavelength_axis)
 
     def set_dark_state(self):
         self.dark_state = self.spectrometer.spectrum()
@@ -117,7 +121,8 @@ class SMPectraUI:
         dpg.fit_axis_data(self.wavelength_axis)
 
     def _save_spectrum(self):
-        save_spectrum(self.output_file_path, self.spectrum)
+        save_path = dpg.get_value(self.output_file_path)
+        save_spectrum(save_path, self.spectrum)
 
     def _set_integration_time(self):
         if self.spectrometer_attached:

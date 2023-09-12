@@ -12,6 +12,8 @@ class SMPectraUI:
         self.setup_control_window()
         self.setup_graph_window()
         self.spectrometer_attached = False
+        self.dark_state_set = False
+        self.bright_state_set = False
         try:
             self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
             self.spectrometer_attached = True
@@ -40,6 +42,10 @@ class SMPectraUI:
                 self.set_bright_state_button = dpg.add_button(
                     label="Set Bright State",
                     callback=self.set_bright_state)
+            with dpg.group(horizontal=True):
+                self.normalise_button = dpg.add_button(
+                    label="Normalise Spectrum",
+                    callback=self.normalise_spectrum)
 
             with dpg.group(horizontal=True):
                 self.get_spectra_button = dpg.add_button(
@@ -87,11 +93,21 @@ class SMPectraUI:
                 self.spectrum_graph = dpg.add_line_series(
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
 
+    def normalise_spectrum(self):
+        if self.dark_state_set and self.light_state_set:
+            bright_bg_removed = self.bright_state[1] - self.dark_state[1]
+            spec_bg_removed = self.spectrum[1] - self.dark_state[1]
+
+            self.normalised_spectrum = spec_bg_removed/bright_bg_removed
+            dpg.set_value(self.spectrum_graph, [self.spectrum[0], self.normalised_spectrum])
+
     def set_dark_state(self):
         self.dark_state = self.spectrometer.spectrum()
+        self.dark_state_set = True
 
     def set_bright_state(self):
         self.bright_state = self.spectrometer.spectrum()
+        self.bright_state_set = True
 
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()

@@ -102,7 +102,7 @@ class SMPectraUI:
             self.spectrum[1] = normalised_spectrum
 
     def set_dark_state(self):
-        self.dark_state = self.spectrometer.spectrum()
+        self.dark_state = self.spectrum
         self.dark_state_set = True
         dpg.set_value(self.dark_state_label, "Dark State set")
         dpg.configure_item(self.set_dark_state_button,
@@ -115,7 +115,7 @@ class SMPectraUI:
                            label="Set Dark State", callback=self.set_dark_state)
 
     def set_bright_state(self):
-        self.bright_state = self.spectrometer.spectrum()
+        self.bright_state = self.spectrum
         self.bright_state_set = True
         dpg.set_value(self.bright_state_label, "Bright State set")
         dpg.configure_item(self.set_bright_state_button,

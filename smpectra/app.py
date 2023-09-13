@@ -3,6 +3,7 @@ from smpectra.ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
 import time
 import threading
 
+
 def get_spectrum(ui):
     first_time = True
     start = time.time()
@@ -26,12 +27,12 @@ def main():
     dpg.setup_dearpygui()
     dpg.show_viewport()
     ui = SMPectraUI()
-    get_spectra_thread = threading.Thread(target = get_spectrum, args = (ui,))
-    get_spectra_thread.daemon = True
+    get_spectra_thread = threading.Thread(target=get_spectrum, args=(ui,))
+    #get_spectra_thread.daemon = True
     get_spectra_thread.start()
 
     while dpg.is_dearpygui_running():
-        
+
         dpg.render_dearpygui_frame()
 
     dpg.destroy_context()

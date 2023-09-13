@@ -14,10 +14,14 @@ def main():
     dpg.show_viewport()
     ui = SMPectraUI()
     start = time.time()
+    first_time = True
     while dpg.is_dearpygui_running():
         integration_time_in_seconds = ui.integration_time*1e-6
         if time.time() - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
             ui._get_spectrum()
+            if first_time:
+                ui.scale_axes()
+                first_time = False
             start = time.time()
         dpg.render_dearpygui_frame()
 

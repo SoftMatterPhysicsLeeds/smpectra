@@ -20,7 +20,6 @@ class SMPectraUI:
             self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
-            self.scale_axes()
         except SeaBreezeError:
             print("Could not find spectrometer")
 

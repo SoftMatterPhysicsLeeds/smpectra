@@ -12,6 +12,8 @@ class SMPectraUI:
     def __init__(self):
         self.setup_control_window()
         self.setup_graph_window()
+        self.setup_device_thickness_calculator_window()
+
         self.spectrometer_attached = False
         self.dark_state_set = False
         self.bright_state_set = False
@@ -27,7 +29,7 @@ class SMPectraUI:
         with dpg.window(label="Control",
                         pos=[0, 0],
                         width=VIEWPORT_WIDTH/4,
-                        height=VIEWPORT_HEIGHT
+                        height=VIEWPORT_HEIGHT/2
                         ):
             with dpg.group(horizontal=True):
                 dpg.add_text("Integration\n time (us): ")
@@ -92,6 +94,14 @@ class SMPectraUI:
 
                 self.spectrum_graph = dpg.add_line_series(
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
+
+    def setup_device_thickness_calculator_window(self):
+        with dpg.window(label="Device Thickness Calculator",
+                        pos = [0, VIEWPORT_HEIGHT/2],
+                        width=VIEWPORT_WIDTH/4,
+                        height=VIEWPORT_HEIGHT/2):
+            with dpg.group(horizontal=True):
+                pass
 
     def normalise_spectrum(self):
         if self.dark_state_set and self.bright_state_set:

@@ -38,6 +38,7 @@ def main():
 
         dpg.render_dearpygui_frame()
     ui.stop_thread = True
+    get_spectra_thread.join()
     dpg.destroy_context()
     ui.spectrometer.close()
 

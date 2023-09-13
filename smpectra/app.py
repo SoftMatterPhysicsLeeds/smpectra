@@ -28,7 +28,7 @@ def main():
     dpg.show_viewport()
     ui = SMPectraUI()
     get_spectra_thread = threading.Thread(target=get_spectrum, args=(ui,))
-    #get_spectra_thread.daemon = True
+    get_spectra_thread.daemon = True
     get_spectra_thread.start()
 
     while dpg.is_dearpygui_running():

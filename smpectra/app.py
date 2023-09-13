@@ -15,7 +15,7 @@ def main():
     start = time.time()
     while dpg.is_dearpygui_running():
         integration_time_in_seconds = ui.integration_time*1e-6
-        if time.time - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
+        if time.time() - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
             ui._get_spectrum()
             start = time.time()
         dpg.render_dearpygui_frame()

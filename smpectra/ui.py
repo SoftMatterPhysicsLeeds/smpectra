@@ -40,10 +40,12 @@ class SMPectraUI:
                 self.set_dark_state_button = dpg.add_button(
                     label="Set Dark State",
                     callback=self.set_dark_state)
+                self.dark_state_label = dpg.add_text("Dark State not set")
             with dpg.group(horizontal=True):
                 self.set_bright_state_button = dpg.add_button(
                     label="Set Bright State",
                     callback=self.set_bright_state)
+                self.bright_state_label = dpg.add_text("Bright State not set")
             with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale axes",
@@ -101,10 +103,28 @@ class SMPectraUI:
     def set_dark_state(self):
         self.dark_state = self.spectrometer.spectrum()
         self.dark_state_set = True
+        dpg.set_value(self.dark_state_label, "Dark State set")
+        dpg.configure_item(self.set_dark_state_button,
+                           label="Unset Dark State", callback=self.unset_dark_state)
+
+    def unset_dark_state(self):
+        self.dark_state_set = False
+        dpg.set_value(self.dark_state_label, "Dark State not set")
+        dpg.configure_item(self.set_dark_state_button,
+                           label="Set Dark State", callback=self.set_dark_state)
 
     def set_bright_state(self):
         self.bright_state = self.spectrometer.spectrum()
         self.bright_state_set = True
+        dpg.set_value(self.bright_state_label, "Bright State set")
+        dpg.configure_item(self.set_bright_state_button,
+                           label="Unset Bright State", callback=self.unset_bright_state)
+
+    def unset_bright_state(self):
+        self.dark_state_set = False
+        dpg.set_value(self.bright_state_label, "Bright State not set")
+        dpg.configure_item(self.set_bright_state_button,
+                           label="Set Bright State", callback=self.set_bright_state)
 
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()

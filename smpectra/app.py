@@ -38,5 +38,6 @@ def main():
     dpg.destroy_context()
     ui.spectrometer.close()
 
+
 if __name__ == "__main__":
     main()

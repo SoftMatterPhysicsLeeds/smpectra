@@ -98,11 +98,35 @@ class SMPectraUI:
 
     def setup_device_thickness_calculator_window(self):
         with dpg.window(label="Device Thickness Calculator",
-                        pos = [0, VIEWPORT_HEIGHT/2],
+                        pos=[0, VIEWPORT_HEIGHT/2],
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/2):
             with dpg.group(horizontal=True):
-                pass
+                dpg.add_text("lambda 1 (nm): ")
+                self.lambda1_input = dpg.add_input_float(default_value=400)
+            with dpg.group(horizontal=True):
+                dpg.add_text("lambda 2 (nm): ")
+                self.lambda2_input = dpg.add_input_float(default_value=800)
+            with dpg.group(horizontal=True):
+                dpg.add_text("n: ")
+                self.n_input = dpg.add_input_float(default_value=1)
+            with dpg.group(horizontal=True):
+                dpg.add_text("m: ")
+                self.m_input = dpg.add_input_int(default_value=1)
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Calculate",
+                               callback=self.calculate_thickness)
+            with dpg.group(horizontal=True):
+                dpg.add_text("d (nm): ")
+                self.d_result_label = dpg.add_text("0")
+
+    def calculate_thickness(self):
+        lambda1 = dpg.get_value(self.lambda1_input)
+        lambda2 = dpg.get_value(self.lambda2_input)
+        n = dpg.get_value(self.n_input)
+        m = dpg.get_value(self.m_input)
+        result = (m * lambda1 * lambda2)/(2 * n * (lambda2 - lambda1))
+        dpg.set_value(self.d_result_label, result)
 
     def normalise_spectrum(self):
         if self.dark_state_set and self.bright_state_set:

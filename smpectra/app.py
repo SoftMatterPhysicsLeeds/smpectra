@@ -2,6 +2,7 @@ import dearpygui.dearpygui as dpg
 from smpectra.ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
 import time
 
+
 def main():
     dpg.create_context()
 

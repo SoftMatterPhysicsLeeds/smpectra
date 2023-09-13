@@ -45,14 +45,9 @@ class SMPectraUI:
                     label="Set Bright State",
                     callback=self.set_bright_state)
             with dpg.group(horizontal=True):
-                self.normalise_button = dpg.add_button(
-                    label="Normalise Spectrum",
-                    callback=self.normalise_spectrum)
-
-            with dpg.group(horizontal=True):
-                self.get_spectra_button = dpg.add_button(
-                    label="Get Spectrum",
-                    callback=self._get_spectrum)
+                self.scale_axes_button = dpg.add_button(
+                    label="Auto-scale axes",
+                    callback=self.scale_axes)
 
             with dpg.group(horizontal=True):
                 self.save_spectra_button = dpg.add_button(
@@ -99,12 +94,9 @@ class SMPectraUI:
         if self.dark_state_set and self.bright_state_set:
             bright_bg_removed = self.bright_state[1] - self.dark_state[1]
             spec_bg_removed = self.spectrum[1] - self.dark_state[1]
-            self.normalised_spectrum = np.divide(spec_bg_removed, bright_bg_removed, out=np.zeros_like(
+            normalised_spectrum = np.divide(spec_bg_removed, bright_bg_removed, out=np.zeros_like(
                 spec_bg_removed), where=bright_bg_removed != 0)
-            dpg.set_value(self.spectrum_graph, [
-                          self.spectrum[0], self.normalised_spectrum])
-            dpg.fit_axis_data(self.intensity_axis)
-            dpg.fit_axis_data(self.wavelength_axis)
+            self.spectrum[1] = normalised_spectrum
 
     def set_dark_state(self):
         self.dark_state = self.spectrometer.spectrum()
@@ -116,8 +108,16 @@ class SMPectraUI:
 
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()
+        if self.bright_state_set and self.dark_state_set:
+            self.normalise_spectrum()
+
+        self.draw_spectrum(self.spectrum)
+
+    def draw_spectrum(self, wavelengths, intensities):
         dpg.set_value(self.spectrum_graph, [
-                      self.spectrum[0], self.spectrum[1]])
+                      wavelengths, intensities])
+
+    def scale_axes(self):
         dpg.fit_axis_data(self.intensity_axis)
         dpg.fit_axis_data(self.wavelength_axis)
 

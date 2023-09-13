@@ -14,6 +14,7 @@ class SMPectraUI:
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
+        self.stop_thread = False
         self.spectrometer_attached = False
         self.dark_state_set = False
         self.bright_state_set = False

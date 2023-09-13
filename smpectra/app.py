@@ -8,6 +8,9 @@ def get_spectrum(ui):
     first_time = True
     start = time.time()
     while True:
+        if ui.stop_thread:
+            print("Stopping acquisition thread...")
+            break
         integration_time_in_seconds = ui.integration_time*1e-6
         if time.time() - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
             ui._get_spectrum()
@@ -34,7 +37,7 @@ def main():
     while dpg.is_dearpygui_running():
 
         dpg.render_dearpygui_frame()
-
+    ui.stop_thread = True
     dpg.destroy_context()
     ui.spectrometer.close()
 

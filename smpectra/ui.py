@@ -83,6 +83,7 @@ class SMPectraUI:
             with dpg.plot(height=VIEWPORT_HEIGHT - 50,
                           width=3*VIEWPORT_WIDTH/4 - 10,
                           anti_aliased=True,
+                          crosshairs=True 
                           ):
                 self.wavelength_axis = dpg.add_plot_axis(
                     dpg.mvXAxis, label="wavelength (nm)")

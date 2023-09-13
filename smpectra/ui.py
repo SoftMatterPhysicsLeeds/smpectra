@@ -1,4 +1,6 @@
+import threading
 import dearpygui.dearpygui as dpg
+import time
 import numpy as np
 from seabreeze.spectrometers import Spectrometer
 from seabreeze.cseabreeze._wrapper import SeaBreezeError
@@ -14,6 +16,11 @@ class SMPectraUI:
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
+        self.get_spectra_thread = threading.Thread(
+            target=get_spectrum, args=(self,))
+        self.get_spectra_thread.daemon = True
+
+        self.continuous_measurement = False
         self.stop_thread = False
         self.spectrometer_attached = False
         self.dark_state_set = False
@@ -23,6 +30,7 @@ class SMPectraUI:
             self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
+            self.start_continuous_measurement()
         except SeaBreezeError:
             print("Could not find spectrometer")
 
@@ -189,6 +197,33 @@ class SMPectraUI:
         else:
             print("ERROR: No spectrometer attached, cannot set integration time")
 
+    def start_continuous_measurement(self):
+        self.get_spectra_thread.start()
+        self.continuous_measurement = True
+
+    def stop_continuous_measurement(self):
+        self.stop_thread = True
+        self.get_spectra_thread.join()
+        self.continuous_measurement = False
+
 
 def _file_saveas_callback(sender, app_data, output_file_path):
     dpg.set_value(output_file_path, app_data["file_path_name"])
+
+
+def get_spectrum(ui):
+    first_time = True
+    start = time.time()
+    while True:
+        if ui.stop_thread:
+            print("Stopping acquisition thread...")
+            break
+        integration_time_in_seconds = ui.integration_time*1e-6
+        if time.time() - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
+            ui._get_spectrum()
+            if first_time:
+                ui.scale_axes()
+                first_time = False
+            start = time.time()
+
+

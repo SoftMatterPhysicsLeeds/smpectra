@@ -15,10 +15,11 @@ class SMPectraUI:
         self.spectrometer_attached = False
         self.dark_state_set = False
         self.bright_state_set = False
+        self.integration_time = 100000
         try:
             self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
             self.spectrometer_attached = True
-            self.spectrometer.integration_time_micros(100000)
+            self.spectrometer.integration_time_micros(self.integration_time)
         except SeaBreezeError:
             print("Could not find spectrometer")
 
@@ -128,6 +129,7 @@ class SMPectraUI:
         if self.spectrometer_attached:
             integration_time = dpg.get_value(self.int_time_input)
             self.spectrometer.integration_time_micros(integration_time)
+            self.integration_time = integration_time
         else:
             print("ERROR: No spectrometer attached, cannot set integration time")
 

@@ -113,9 +113,9 @@ class SMPectraUI:
 
         self.draw_spectrum(self.spectrum)
 
-    def draw_spectrum(self, wavelengths, intensities):
+    def draw_spectrum(self, spectrum):
         dpg.set_value(self.spectrum_graph, [
-                      wavelengths, intensities])
+                      self.spectrum[0], self.spectrum[1]])
 
     def scale_axes(self):
         dpg.fit_axis_data(self.intensity_axis)

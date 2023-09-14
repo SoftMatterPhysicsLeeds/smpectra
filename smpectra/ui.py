@@ -16,7 +16,6 @@ class SMPectraUI:
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
-        
         self.continuous_measurement = False
         self.stop_thread = False
         self.spectrometer_attached = False
@@ -28,6 +27,7 @@ class SMPectraUI:
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
             self.start_continuous_measurement()
+            self.continuous_measurement = True
         except SeaBreezeError:
             print("Could not find spectrometer")
 
@@ -37,7 +37,8 @@ class SMPectraUI:
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/4
                         ):
-            self.continuous_measurement_button = dpg.add_button(label="Stop Continuous Measurements", callback= self.stop_continuous_measurement)
+            self.continuous_measurement_button = dpg.add_button(
+                label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
             with dpg.group(horizontal=True):
                 dpg.add_text("Integration\n time (us): ")
                 self.int_time_input = dpg.add_input_int(
@@ -214,13 +215,15 @@ class SMPectraUI:
         self.get_spectra_thread.daemon = True
         self.get_spectra_thread.start()
         self.continuous_measurement = True
-        dpg.configure_item(self.continuous_measurement_button, label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
+        dpg.configure_item(self.continuous_measurement_button,
+                           label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
 
     def stop_continuous_measurement(self):
         self.stop_thread = True
         self.get_spectra_thread.join()
         self.continuous_measurement = False
-        dpg.configure_item(self.continuous_measurement_button, label="Start Continuous Measurements", callback=self.start_continuous_measurement)
+        dpg.configure_item(self.continuous_measurement_button,
+                           label="Start Continuous Measurements", callback=self.start_continuous_measurement)
 
     def get_average_spectrum(self):
         sum_spectrum = np.zeros_like(self.spectrum)
@@ -229,9 +232,8 @@ class SMPectraUI:
         for i in range(num_of_averages):
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
-                                 
-        self.draw_spectrum(self.average_spectrum)
 
+        self.draw_spectrum(self.average_spectrum)
 
 
 def _file_saveas_callback(sender, app_data, output_file_path):

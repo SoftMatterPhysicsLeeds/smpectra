@@ -36,7 +36,7 @@ class SMPectraUI:
         with dpg.window(label="Spectrometer Control",
                         pos=[0, 0],
                         width=VIEWPORT_WIDTH/4,
-                        height=2*(VIEWPORT_HEIGHT/2)/3
+                        height=2*(2*VIEWPORT_HEIGHT/3)/3
                         ):
             with dpg.group(horizontal=True):
                 dpg.add_text("Status: ")
@@ -69,9 +69,9 @@ class SMPectraUI:
                     callback=self._set_integration_time)
         with dpg.window(
                 label="Graph Control",
-                pos=[0, 2*(VIEWPORT_HEIGHT/2)/3],
+                pos=[0, 2*(2*VIEWPORT_HEIGHT/3)/3],
                 width=VIEWPORT_WIDTH/4,
-                height=(VIEWPORT_HEIGHT/2)/3
+                height=(2*VIEWPORT_HEIGHT/3)/3
         ):
             with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(
@@ -130,9 +130,9 @@ class SMPectraUI:
 
     def setup_device_thickness_calculator_window(self):
         with dpg.window(label="Device Thickness Calculator",
-                        pos=[0, VIEWPORT_HEIGHT/2],
+                        pos=[0, 2*VIEWPORT_HEIGHT/3],
                         width=VIEWPORT_WIDTH/4,
-                        height=VIEWPORT_HEIGHT/2):
+                        height=VIEWPORT_HEIGHT/3):
             with dpg.group(horizontal=True):
                 dpg.add_text("lambda 1 (nm): ")
                 self.lambda1_input = dpg.add_input_float(default_value=400)

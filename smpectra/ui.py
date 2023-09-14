@@ -43,22 +43,26 @@ class SMPectraUI:
                 self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements",
-                callback=self.stop_continuous_measurement, width=250, height=50)
+                callback=self.stop_continuous_measurement, width=300, height=50)
             with dpg.group(horizontal=True):
                 dpg.add_text("Number of averages: ")
                 self.number_of_averages_input = dpg.add_input_int(
                     default_value=10, width=100)
             self.get_average_spectrum_button = dpg.add_button(
-                label="Get Averaged Spectrum", callback=self.get_average_spectrum, width=250, height=50)
+                label="Get Averaged Spectrum", callback=self.get_average_spectrum, width=300, height=50)
             with dpg.group(horizontal=True):
                 self.set_dark_state_button = dpg.add_button(
                     label="Set Dark State",
-                    callback=self.set_dark_state)
+                    callback=self.set_dark_state,
+                    width=150,
+                    height=25)
                 self.dark_state_label = dpg.add_text("Dark State not set")
             with dpg.group(horizontal=True):
                 self.set_bright_state_button = dpg.add_button(
                     label="Set Bright State",
-                    callback=self.set_bright_state)
+                    callback=self.set_bright_state,
+                    width=150,
+                    height=25)
                 self.bright_state_label = dpg.add_text("Bright State not set")
             with dpg.group(horizontal=True):
                 dpg.add_text("Integration\n time (us): ")

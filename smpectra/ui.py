@@ -90,12 +90,6 @@ class SMPectraUI:
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale axes",
                     callback=self.scale_axes)
-
-            with dpg.group(horizontal=True):
-                self.save_spectra_button = dpg.add_button(
-                    label="Save Spectrum",
-                    callback=self._save_spectrum)
-
             with dpg.group(horizontal=True):
                 self.output_file_path = dpg.add_input_text(
                     default_value="results.txt"
@@ -104,6 +98,14 @@ class SMPectraUI:
                     label="Browse", callback=lambda: dpg.show_item("file_dialog_id")
                 )
 
+            with dpg.group(horizontal=True):
+                self.save_spectra_button = dpg.add_button(
+                    label="Save Spectrum",
+                    callback=self._save_spectrum,
+                    width=300,
+                    height=50)
+
+            
             with dpg.file_dialog(
                 directory_selector=False,
                 show=False,

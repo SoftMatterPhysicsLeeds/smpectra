@@ -43,7 +43,7 @@ class SMPectraUI:
                 self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements",
-                callback=self.stop_continuous_measurement)
+                callback=self.stop_continuous_measurement, width=200, height=200)
             with dpg.group(horizontal=True):
                 dpg.add_text("Number of averages: ")
                 self.number_of_averages_input = dpg.add_input_int(

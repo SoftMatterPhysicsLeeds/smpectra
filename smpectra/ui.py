@@ -36,6 +36,8 @@ class SMPectraUI:
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/4
                         ):
+
+            self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
             with dpg.group(horizontal=True):
@@ -209,6 +211,7 @@ class SMPectraUI:
             print("ERROR: No spectrometer attached, cannot set integration time")
 
     def start_continuous_measurement(self):
+        dpg.set_value(self.status, "Continuous Measurement")
         self.stop_thread = False
         self.get_spectra_thread = threading.Thread(
             target=get_spectrum, args=(self,))
@@ -219,6 +222,7 @@ class SMPectraUI:
                            label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
 
     def stop_continuous_measurement(self):
+        dpg.set_value(self.status, "Averaging Measurement: Idle")
         self.stop_thread = True
         self.get_spectra_thread.join()
         self.continuous_measurement = False
@@ -226,11 +230,13 @@ class SMPectraUI:
                            label="Start Continuous Measurements", callback=self.start_continuous_measurement)
 
     def get_average_spectrum(self):
+        if self.continuous_measurement:
+            return
         sum_spectrum = np.zeros_like(self.spectrum[1])
         wavelengths = self.spectrum[0]
         num_of_averages = dpg.get_value(self.number_of_averages_input)
         for i in range(num_of_averages):
-            print(i)
+            dpg.set_value(self.status, f"Averaging Measurement: #{i+1}")
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
         print(self.average_spectrum)

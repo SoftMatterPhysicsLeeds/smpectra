@@ -95,7 +95,8 @@ class SMPectraUI:
                     default_value="results.txt"
                 )
                 self.browse_button = dpg.add_button(
-                    label="Browse", callback=lambda: dpg.show_item("file_dialog_id")
+                    label="Browse",
+                    callback=lambda: dpg.show_item("file_dialog_id")
                 )
 
             with dpg.group(horizontal=True):
@@ -121,11 +122,13 @@ class SMPectraUI:
                         pos=[VIEWPORT_WIDTH/4, 0],
                         width=3*VIEWPORT_WIDTH/4 - 15,
                         height=VIEWPORT_HEIGHT):
+
             with dpg.plot(height=VIEWPORT_HEIGHT - 50,
                           width=3*VIEWPORT_WIDTH/4 - 10,
                           anti_aliased=True,
-                          crosshairs=True
+                          crosshairs=True,
                           ):
+
                 self.wavelength_axis = dpg.add_plot_axis(
                     dpg.mvXAxis, label="wavelength (nm)")
                 self.intensity_axis = dpg.add_plot_axis(
@@ -133,6 +136,28 @@ class SMPectraUI:
 
                 self.spectrum_graph = dpg.add_line_series(
                     x=[], y=[], label="spectrum", parent=self.intensity_axis)
+
+                self.lambda1_line = dpg.add_drag_line(
+                    label="lambda1",
+                    color=[255, 0, 0, 255],
+                    default_value=400,
+                    callback=self.lambda1_line_changed
+                )
+
+                self.lambda2_line = dpg.add_drag_line(
+                    label="lambda2",
+                    color=[0, 0, 255, 255],
+                    default_value=800,
+                    callback=self.lambda2_line_changed
+                )
+
+    def lambda1_line_changed(self):
+        val = dpg.get_value(self.lambda1_line)
+        dpg.set_value(self.lambda1_input, val)
+
+    def lambda2_line_changed(self):
+        val = dpg.get_value(self.lambda2_line)
+        dpg.set_value(self.lambda2_input, val)
 
     def setup_device_thickness_calculator_window(self):
         with dpg.window(label="Device Thickness Calculator",
@@ -142,11 +167,11 @@ class SMPectraUI:
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'lambda 1 (nm):':>14} ")
                 self.lambda1_input = dpg.add_input_float(
-                    default_value=400, width=150)
+                    default_value=400, width=150, callback=self.lambda1_input_changed)
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'lambda 2 (nm):':>14} ")
                 self.lambda2_input = dpg.add_input_float(
-                    default_value=800, width=150)
+                    default_value=800, width=150, callback=self.lambda2_input_changed)
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'n:':>14} ")
                 self.n_input = dpg.add_input_float(default_value=1, width=150)
@@ -155,10 +180,20 @@ class SMPectraUI:
                 self.m_input = dpg.add_input_int(default_value=1, width=150)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Calculate",
-                               callback=self.calculate_thickness, width=300, height=50)
+                               callback=self.calculate_thickness,
+                               width=300,
+                               height=50)
             with dpg.group(horizontal=True):
                 dpg.add_text("d (nm): ")
                 self.d_result_label = dpg.add_text("0")
+
+    def lambda1_input_changed(self):
+        val = dpg.get_value(self.lambda1_input)
+        dpg.set_value(self.lambda1_line, val)
+
+    def lambda2_input_changed(self):
+        val = dpg.get_value(self.lambda2_input)
+        dpg.set_value(self.lambda2_line, val)
 
     def calculate_thickness(self):
         lambda1 = dpg.get_value(self.lambda1_input)

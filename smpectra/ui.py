@@ -43,13 +43,13 @@ class SMPectraUI:
                 self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements",
-                callback=self.stop_continuous_measurement, width=200, height=200)
+                callback=self.stop_continuous_measurement, width=250, height=50)
             with dpg.group(horizontal=True):
                 dpg.add_text("Number of averages: ")
                 self.number_of_averages_input = dpg.add_input_int(
                     default_value=10, width=100)
             self.get_average_spectrum_button = dpg.add_button(
-                label="Get Spectrum", callback=self.get_average_spectrum)
+                label="Get Averaged Spectrum", callback=self.get_average_spectrum, width=250, height=50)
             with dpg.group(horizontal=True):
                 self.set_dark_state_button = dpg.add_button(
                     label="Set Dark State",

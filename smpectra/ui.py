@@ -242,6 +242,7 @@ def _file_saveas_callback(sender, app_data, output_file_path):
 def get_spectrum(ui):
     first_time = True
     start = time.time()
+    print("Starting acquisition thread...")
     while True:
         if ui.stop_thread:
             print("Stopping acquisition thread...")

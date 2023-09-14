@@ -44,7 +44,6 @@ class SMPectraUI:
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements",
                 callback=self.stop_continuous_measurement)
-            
             with dpg.group(horizontal=True):
                 dpg.add_text("Number of averages: ")
                 self.number_of_averages_input = dpg.add_input_int(
@@ -74,6 +73,16 @@ class SMPectraUI:
                 width=VIEWPORT_WIDTH/4,
                 height=(VIEWPORT_HEIGHT/2)/3
         ):
+            with dpg.group(horizontal=True):
+                self.scale_axes_button = dpg.add_button(
+                    label="Auto-scale x-axis",
+                    callback=self.scale_x_axis)
+
+            with dpg.group(horizontal=True):
+                self.scale_axes_button = dpg.add_button(
+                    label="Auto-scale y-axis",
+                    callback=self.scale_y_axis)
+
             with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale axes",
@@ -203,10 +212,17 @@ class SMPectraUI:
         dpg.fit_axis_data(self.intensity_axis)
         dpg.fit_axis_data(self.wavelength_axis)
 
+    def scale_x_axis(self):
+        dpg.fit_axis_data(self.wavelength_axis)
+
+    def scale_y_axis(self):
+        dpg.fit_axis_data(self.intensity_axis)
+
     def _save_spectrum(self):
         save_path = dpg.get_value(self.output_file_path)
         normalised_spectrum = self.normalise_spectrum(self.spectrum)
-        save_spectrum(save_path, normalised_spectrum, self.spectrum, self.dark_state, self.bright_state )
+        save_spectrum(save_path, normalised_spectrum,
+                      self.spectrum, self.dark_state, self.bright_state)
 
     def _set_integration_time(self):
         if self.spectrometer_attached:

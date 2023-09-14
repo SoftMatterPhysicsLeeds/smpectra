@@ -189,6 +189,8 @@ class SMPectraUI:
         self.draw_spectrum(self.spectrum)
 
     def draw_spectrum(self, spectrum):
+        if not self.continuous_measurement:
+            print("drawing Spectrum")
         dpg.set_value(self.spectrum_graph, [
                       self.spectrum[0], self.spectrum[1]])
 

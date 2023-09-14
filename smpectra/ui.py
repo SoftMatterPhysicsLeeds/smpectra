@@ -16,10 +16,7 @@ class SMPectraUI:
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
-        self.get_spectra_thread = threading.Thread(
-            target=get_spectrum, args=(self,))
-        self.get_spectra_thread.daemon = True
-
+        
         self.continuous_measurement = False
         self.stop_thread = False
         self.spectrometer_attached = False
@@ -212,10 +209,12 @@ class SMPectraUI:
             print("ERROR: No spectrometer attached, cannot set integration time")
 
     def start_continuous_measurement(self):
+        self.get_spectra_thread = threading.Thread(
+            target=get_spectrum, args=(self,))
+        self.get_spectra_thread.daemon = True
         self.get_spectra_thread.start()
         self.continuous_measurement = True
         dpg.configure_item(self.continuous_measurement_button, label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
-
 
     def stop_continuous_measurement(self):
         self.stop_thread = True

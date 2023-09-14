@@ -18,7 +18,8 @@ def main():
         dpg.render_dearpygui_frame()
     dpg.destroy_context()
 
-    ui.spectrometer.close()
+    if ui.spectrometer_attached:
+        ui.spectrometer.close()
 
 
 if __name__ == "__main__":

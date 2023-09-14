@@ -12,7 +12,7 @@ VIEWPORT_HEIGHT = DRAW_HEIGHT - 40
 
 class SMPectraUI:
     def __init__(self):
-        self.setup_control_window()
+        self.setup_control_windows()
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
@@ -34,12 +34,13 @@ class SMPectraUI:
         except SeaBreezeError:
             print("Could not find spectrometer")
 
-    def setup_control_window(self):
-        with dpg.window(label="Control",
+    def setup_control_windows(self):
+        with dpg.window(label="Spectrometer Control",
                         pos=[0, 0],
                         width=VIEWPORT_WIDTH/4,
-                        height=VIEWPORT_HEIGHT/2
+                        height=VIEWPORT_HEIGHT/4
                         ):
+            self.continuous_measurement_button = dpg.add_button(label="Stop Continuous Measurements", callback= self.stop_continuous_measurement)
             with dpg.group(horizontal=True):
                 dpg.add_text("Integration\n time (us): ")
                 self.int_time_input = dpg.add_input_int(
@@ -47,6 +48,12 @@ class SMPectraUI:
                 self.apply_int_time = dpg.add_button(
                     label="Apply",
                     callback=self._set_integration_time)
+            with dpg.group(horizontal=True):
+                dpg.add_text("Number of averages: ")
+                self.number_of_averages_input = dpg.add_input_int(
+                    default_value=10, width=100)
+            self.get_average_spectrum_button = dpg.add_button(
+                label="Get Spectrum", callback=self.get_average_spectrum)
             with dpg.group(horizontal=True):
                 self.set_dark_state_button = dpg.add_button(
                     label="Set Dark State",
@@ -57,6 +64,13 @@ class SMPectraUI:
                     label="Set Bright State",
                     callback=self.set_bright_state)
                 self.bright_state_label = dpg.add_text("Bright State not set")
+
+        with dpg.window(
+                label="Graph Control",
+                pos=[0, VIEWPORT_HEIGHT/4],
+                width=VIEWPORT_WIDTH/4,
+                height=VIEWPORT_HEIGHT/4
+        ):
             with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale axes",
@@ -200,11 +214,25 @@ class SMPectraUI:
     def start_continuous_measurement(self):
         self.get_spectra_thread.start()
         self.continuous_measurement = True
+        dpg.configure_item(self.continuous_measurement_button, label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
+
 
     def stop_continuous_measurement(self):
         self.stop_thread = True
         self.get_spectra_thread.join()
         self.continuous_measurement = False
+        dpg.configure_item(self.continuous_measurement_button, label="Start Continuous Measurements", callback=self.start_continuous_measurement)
+
+    def get_average_spectrum(self):
+        sum_spectrum = np.zeros_like(self.spectrum)
+        wavelengths = self.spectrum[0]
+        num_of_averages = dpg.get_value(self.number_of_averages_input)
+        for i in range(num_of_averages):
+            sum_spectrum += self.spectrometer.spectrum()[1]
+        self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
+                                 
+        self.draw_spectrum(self.average_spectrum)
+
 
 
 def _file_saveas_callback(sender, app_data, output_file_path):
@@ -225,5 +253,3 @@ def get_spectrum(ui):
                 ui.scale_axes()
                 first_time = False
             start = time.time()
-
-

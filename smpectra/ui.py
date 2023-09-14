@@ -27,7 +27,6 @@ class SMPectraUI:
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
             self.start_continuous_measurement()
-            self.continuous_measurement = True
         except SeaBreezeError:
             print("Could not find spectrometer")
 
@@ -216,14 +215,14 @@ class SMPectraUI:
         self.get_spectra_thread.start()
         self.continuous_measurement = True
         dpg.configure_item(self.continuous_measurement_button,
-                           label="Start Continuous Measurements", callback=self.start_continuous_measurement)
+                           label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
 
     def stop_continuous_measurement(self):
         self.stop_thread = True
         self.get_spectra_thread.join()
         self.continuous_measurement = False
         dpg.configure_item(self.continuous_measurement_button,
-                           label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
+                           label="Start Continuous Measurements", callback=self.start_continuous_measurement)
 
     def get_average_spectrum(self):
         sum_spectrum = np.zeros_like(self.spectrum)

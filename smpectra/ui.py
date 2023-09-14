@@ -224,8 +224,8 @@ class SMPectraUI:
         y = np.array(y)
         lims = dpg.get_axis_limits(self.wavelength_axis)
         print(lims)
-        max = np.max(y[np.where(x.any() > lims[0] and x.any() < lims[1], True, False)])
-        min = np.min(y[np.where(x.any() > lims[0] and x.any() < lims[1], True, False)])
+        max = np.max(y[np.where(x > lims[0])])
+        min = 0
         dpg.set_axis_limits(self.intensity_axis, min, max)
 
     def _save_spectrum(self):

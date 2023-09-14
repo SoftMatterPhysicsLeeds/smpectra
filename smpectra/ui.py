@@ -219,7 +219,11 @@ class SMPectraUI:
         dpg.fit_axis_data(self.wavelength_axis)
 
     def scale_y_axis(self):
-        dpg.fit_axis_data(self.intensity_axis)
+        x, y = dpg.get_value(self.spectrum_graph)
+        lims = dpg.get_axis_limits(self.wavelength_axis)
+        max = np.max(y[np.where(x > lims[0] and x < lims[1], True, False)])
+        min = np.min(y[np.where(x > lims[0] and x < lims[1], True, False)])
+        dpg.set_axis_limits(self.intensity_axis, min, max)
 
     def _save_spectrum(self):
         save_path = dpg.get_value(self.output_file_path)

@@ -19,6 +19,8 @@ def main():
     dpg.destroy_context()
 
     if ui.spectrometer_attached:
+        ui.stop_thread = True
+        ui.get_spectra_thread.join()
         ui.spectrometer.close()
 
 

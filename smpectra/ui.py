@@ -158,7 +158,7 @@ class SMPectraUI:
                                callback=self.calculate_thickness, width=300, height=150)
             with dpg.group(horizontal=True):
                 dpg.add_text("d (nm): ")
-                self.d_result_label = dpg.add_text("0", width=100)
+                self.d_result_label = dpg.add_text("0")
 
     def calculate_thickness(self):
         lambda1 = dpg.get_value(self.lambda1_input)

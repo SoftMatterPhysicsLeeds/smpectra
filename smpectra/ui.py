@@ -201,7 +201,8 @@ class SMPectraUI:
 
     def _save_spectrum(self):
         save_path = dpg.get_value(self.output_file_path)
-        save_spectrum(save_path, self.spectrum)
+        normalised_spectrum = self.normalise_spectrum(self.spectrum)
+        save_spectrum(save_path, normalised_spectrum, self.spectrum, self.dark_state, self.bright_state )
 
     def _set_integration_time(self):
         if self.spectrometer_attached:

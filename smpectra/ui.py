@@ -34,7 +34,7 @@ class SMPectraUI:
         with dpg.window(label="Spectrometer Control",
                         pos=[0, 0],
                         width=VIEWPORT_WIDTH/4,
-                        height=VIEWPORT_HEIGHT/4
+                        height=2*(VIEWPORT_HEIGHT/2)/3
                         ):
 
             self.status = dpg.add_text("Continuous Measurement")
@@ -66,9 +66,9 @@ class SMPectraUI:
 
         with dpg.window(
                 label="Graph Control",
-                pos=[0, VIEWPORT_HEIGHT/4],
+                pos=[0, 2*(VIEWPORT_HEIGHT/2)/3],
                 width=VIEWPORT_WIDTH/4,
-                height=VIEWPORT_HEIGHT/4
+                height=(VIEWPORT_HEIGHT/2)/3
         ):
             with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(

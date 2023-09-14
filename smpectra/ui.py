@@ -149,13 +149,14 @@ class SMPectraUI:
         result = (m * lambda1 * lambda2)/(2 * n * (lambda2 - lambda1))
         dpg.set_value(self.d_result_label, result)
 
-    def normalise_spectrum(self):
+    def normalise_spectrum(self, spectrum):
         if self.dark_state_set and self.bright_state_set:
             bright_bg_removed = self.bright_state[1] - self.dark_state[1]
-            spec_bg_removed = self.spectrum[1] - self.dark_state[1]
+            spec_bg_removed = spectrum[1] - self.dark_state[1]
             normalised_spectrum = np.divide(spec_bg_removed, bright_bg_removed, out=np.zeros_like(
                 spec_bg_removed), where=bright_bg_removed != 0)
-            self.normalised_spectrum = [self.spectrum[0], normalised_spectrum]
+            normalised_spectrum = [spectrum[0], normalised_spectrum]
+            return normalised_spectrum
 
     def set_dark_state(self):
         self.dark_state = self.spectrum
@@ -185,13 +186,12 @@ class SMPectraUI:
 
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()
-        if self.bright_state_set and self.dark_state_set:
-            self.normalise_spectrum()
-            self.draw_spectrum(self.normalised_spectrum)
-        else:
-            self.draw_spectrum(self.spectrum)
+        self.draw_spectrum(self.spectrum)
 
     def draw_spectrum(self, spectrum):
+        if self.bright_state_set and self.dark_state_set:
+            spectrum = self.normalise_spectrum(spectrum)
+
         dpg.set_value(self.spectrum_graph, [
                       spectrum[0], spectrum[1]])
 

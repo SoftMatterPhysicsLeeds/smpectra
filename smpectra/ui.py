@@ -226,7 +226,7 @@ class SMPectraUI:
                            label="Start Continuous Measurements", callback=self.start_continuous_measurement)
 
     def get_average_spectrum(self):
-        sum_spectrum = np.zeros_like(self.spectrum)
+        sum_spectrum = np.zeros_like(self.spectrum[1])
         wavelengths = self.spectrum[0]
         num_of_averages = dpg.get_value(self.number_of_averages_input)
         for i in range(num_of_averages):

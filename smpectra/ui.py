@@ -220,6 +220,8 @@ class SMPectraUI:
 
     def scale_y_axis(self):
         x, y = dpg.get_value(self.spectrum_graph)
+        x = np.array(x)
+        y = np.array(y)
         lims = dpg.get_axis_limits(self.wavelength_axis)
         max = np.max(y[np.where(x > lims[0] and x < lims[1], True, False)])
         min = np.min(y[np.where(x > lims[0] and x < lims[1], True, False)])

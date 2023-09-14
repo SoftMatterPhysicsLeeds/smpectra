@@ -209,6 +209,7 @@ class SMPectraUI:
             print("ERROR: No spectrometer attached, cannot set integration time")
 
     def start_continuous_measurement(self):
+        self.stop_thread = False
         self.get_spectra_thread = threading.Thread(
             target=get_spectrum, args=(self,))
         self.get_spectra_thread.daemon = True

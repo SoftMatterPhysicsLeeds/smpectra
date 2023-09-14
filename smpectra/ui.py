@@ -155,7 +155,7 @@ class SMPectraUI:
                 self.m_input = dpg.add_input_int(default_value=1, width=100)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Calculate",
-                               callback=self.calculate_thickness, width=300, height=150)
+                               callback=self.calculate_thickness, width=300, height=50)
             with dpg.group(horizontal=True):
                 dpg.add_text("d (nm): ")
                 self.d_result_label = dpg.add_text("0")

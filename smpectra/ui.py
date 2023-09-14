@@ -44,7 +44,7 @@ class SMPectraUI:
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements",
                 callback=self.stop_continuous_measurement, width=300, height=50)
-            
+
             self.get_average_spectrum_button = dpg.add_button(
                 label="Get Averaged Spectrum", callback=self.get_average_spectrum, width=300, height=50)
             with dpg.group(horizontal=True):
@@ -263,7 +263,7 @@ class SMPectraUI:
             dpg.set_value(self.status, f"Averaging Measurement: #{i+1}")
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
-
+        dpg.set_value(self.status, "Averaging Measurement: Idle")
         self.draw_spectrum(self.average_spectrum)
 
 

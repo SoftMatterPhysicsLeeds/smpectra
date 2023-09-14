@@ -38,8 +38,9 @@ class SMPectraUI:
                         width=VIEWPORT_WIDTH/4,
                         height=2*(VIEWPORT_HEIGHT/2)/3
                         ):
-
-            self.status = dpg.add_text("Continuous Measurement")
+            with dpg.group(horizontal=True):
+                dpg.add_text("Status: ")
+                self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
                 label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
             with dpg.group(horizontal=True):

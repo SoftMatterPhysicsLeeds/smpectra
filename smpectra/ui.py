@@ -155,7 +155,7 @@ class SMPectraUI:
             spec_bg_removed = self.spectrum[1] - self.dark_state[1]
             normalised_spectrum = np.divide(spec_bg_removed, bright_bg_removed, out=np.zeros_like(
                 spec_bg_removed), where=bright_bg_removed != 0)
-            self.spectrum[1] = normalised_spectrum
+            self.normalised_spectrum = [self.spectrum[0], normalised_spectrum]
 
     def set_dark_state(self):
         self.dark_state = self.spectrum
@@ -186,9 +186,9 @@ class SMPectraUI:
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()
         if self.bright_state_set and self.dark_state_set:
-            self.normalise_spectrum()
-
-        self.draw_spectrum(self.spectrum)
+            self.draw_spectrum(self.normalised_spectrum)
+        else:
+            self.draw_spectrum(self.spectrum)
 
     def draw_spectrum(self, spectrum):
         dpg.set_value(self.spectrum_graph, [
@@ -239,7 +239,6 @@ class SMPectraUI:
             dpg.set_value(self.status, f"Averaging Measurement: #{i+1}")
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
-        print(self.average_spectrum)
 
         self.draw_spectrum(self.average_spectrum)
 

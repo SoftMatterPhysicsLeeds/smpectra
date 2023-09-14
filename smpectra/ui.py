@@ -186,6 +186,7 @@ class SMPectraUI:
     def _get_spectrum(self):
         self.spectrum = self.spectrometer.spectrum()
         if self.bright_state_set and self.dark_state_set:
+            self.normalise_spectrum()
             self.draw_spectrum(self.normalised_spectrum)
         else:
             self.draw_spectrum(self.spectrum)

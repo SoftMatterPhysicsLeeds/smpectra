@@ -42,14 +42,9 @@ class SMPectraUI:
                 dpg.add_text("Status: ")
                 self.status = dpg.add_text("Continuous Measurement")
             self.continuous_measurement_button = dpg.add_button(
-                label="Stop Continuous Measurements", callback=self.stop_continuous_measurement)
-            with dpg.group(horizontal=True):
-                dpg.add_text("Integration\n time (us): ")
-                self.int_time_input = dpg.add_input_int(
-                    default_value=100000, width=100)
-                self.apply_int_time = dpg.add_button(
-                    label="Apply",
-                    callback=self._set_integration_time)
+                label="Stop Continuous Measurements",
+                callback=self.stop_continuous_measurement)
+            
             with dpg.group(horizontal=True):
                 dpg.add_text("Number of averages: ")
                 self.number_of_averages_input = dpg.add_input_int(
@@ -66,7 +61,13 @@ class SMPectraUI:
                     label="Set Bright State",
                     callback=self.set_bright_state)
                 self.bright_state_label = dpg.add_text("Bright State not set")
-
+            with dpg.group(horizontal=True):
+                dpg.add_text("Integration\n time (us): ")
+                self.int_time_input = dpg.add_input_int(
+                    default_value=100000, width=100)
+                self.apply_int_time = dpg.add_button(
+                    label="Apply",
+                    callback=self._set_integration_time)
         with dpg.window(
                 label="Graph Control",
                 pos=[0, 2*(VIEWPORT_HEIGHT/2)/3],

@@ -230,6 +230,7 @@ class SMPectraUI:
         wavelengths = self.spectrum[0]
         num_of_averages = dpg.get_value(self.number_of_averages_input)
         for i in range(num_of_averages):
+            print(i)
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
 

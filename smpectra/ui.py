@@ -233,6 +233,7 @@ class SMPectraUI:
             print(i)
             sum_spectrum += self.spectrometer.spectrum()[1]
         self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
+        print(self.average_spectrum)
 
         self.draw_spectrum(self.average_spectrum)
 
@@ -250,7 +251,7 @@ def get_spectrum(ui):
             print("Stopping acquisition thread...")
             break
         integration_time_in_seconds = ui.integration_time*1e-6
-        if time.time() - start > integration_time_in_seconds + 0.1*integration_time_in_seconds:
+        if time.time() - start > integration_time_in_seconds + 0.01*integration_time_in_seconds:
             ui._get_spectrum()
             if first_time:
                 ui.scale_axes()

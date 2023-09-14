@@ -77,8 +77,6 @@ class SMPectraUI:
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale x-axis",
                     callback=self.scale_x_axis)
-
-            with dpg.group(horizontal=True):
                 self.scale_axes_button = dpg.add_button(
                     label="Auto-scale y-axis",
                     callback=self.scale_y_axis)

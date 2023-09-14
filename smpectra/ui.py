@@ -223,8 +223,9 @@ class SMPectraUI:
         x = np.array(x)
         y = np.array(y)
         lims = dpg.get_axis_limits(self.wavelength_axis)
+        x_limited = x[np.where(x > lims[0])]
         y_limited = y[np.where(x > lims[0])]
-        y_limited = y_limited[np.where(x < lims[1])]
+        y_limited = y_limited[np.where(x_limited < lims[1])]
         max = np.max(y_limited)
         min = np.min(y_limited)
         dpg.set_axis_limits(self.intensity_axis, min, max)

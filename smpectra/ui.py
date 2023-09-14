@@ -105,7 +105,6 @@ class SMPectraUI:
                     width=300,
                     height=50)
 
-            
             with dpg.file_dialog(
                 directory_selector=False,
                 show=False,
@@ -141,23 +140,23 @@ class SMPectraUI:
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/3):
             with dpg.group(horizontal=True):
-                dpg.add_text("lambda 1 (nm): ")
-                self.lambda1_input = dpg.add_input_float(default_value=400)
+                dpg.add_text("lambda 1 (nm): ", width=100)
+                self.lambda1_input = dpg.add_input_float(default_value=400, width=100)
             with dpg.group(horizontal=True):
-                dpg.add_text("lambda 2 (nm): ")
-                self.lambda2_input = dpg.add_input_float(default_value=800)
+                dpg.add_text("lambda 2 (nm): ", width=100)
+                self.lambda2_input = dpg.add_input_float(default_value=800, width=100)
             with dpg.group(horizontal=True):
-                dpg.add_text("n: ")
-                self.n_input = dpg.add_input_float(default_value=1)
+                dpg.add_text("n: ", width=100)
+                self.n_input = dpg.add_input_float(default_value=1, width=100)
             with dpg.group(horizontal=True):
-                dpg.add_text("m: ")
-                self.m_input = dpg.add_input_int(default_value=1)
+                dpg.add_text("m: ", width=100)
+                self.m_input = dpg.add_input_int(default_value=1, width=100)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Calculate",
-                               callback=self.calculate_thickness)
+                               callback=self.calculate_thickness, width=300, height=150)
             with dpg.group(horizontal=True):
-                dpg.add_text("d (nm): ")
-                self.d_result_label = dpg.add_text("0")
+                dpg.add_text("d (nm): ", width=100)
+                self.d_result_label = dpg.add_text("0", width=100)
 
     def calculate_thickness(self):
         lambda1 = dpg.get_value(self.lambda1_input)

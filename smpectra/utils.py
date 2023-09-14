@@ -1,7 +1,7 @@
-def save_spectrum(filename, normalised_spectrum, spectrum, dark_state, bright_state, normalised=False):
+def save_spectrum(filename, normalised_spectrum, spectrum, dark_state, bright_state):
     wavelengths, intensities = spectrum
     with open(filename, 'w') as f:
-        if normalised:
+        if dark_state:
             f.write(
                 "Wavelength\tNormalised Intensity\tIntensity\tDark State\tBright State\n")
             for i in range(len(wavelengths)):

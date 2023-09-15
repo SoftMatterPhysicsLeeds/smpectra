@@ -2,6 +2,10 @@ import dearpygui.dearpygui as dpg
 from smpectra.ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
 from pathlib import Path
 
+# TODO: add ability to save 'd' values and average them
+# TODO: fit the spectrum to find m...
+
+
 def main():
 
     Path("../SMPectra_Data").mkdir(parents=True, exist_ok=True)

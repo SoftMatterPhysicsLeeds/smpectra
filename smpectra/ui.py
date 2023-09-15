@@ -278,7 +278,7 @@ class SMPectraUI:
 
     def _save_spectrum(self):
         save_path = dpg.get_value(self.output_folder) + "\\" +  dpg.get_value(self.output_file)
-        print(save_path)
+        print(f"Saving spectrum to {save_path}")
         normalised_spectrum = self.normalise_spectrum(self.spectrum)
         save_spectrum(save_path, normalised_spectrum,
                       self.spectrum, self.dark_state, self.bright_state, self.dark_state_set)

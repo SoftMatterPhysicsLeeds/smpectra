@@ -96,7 +96,7 @@ class SMPectraUI:
                 dpg.add_text("Folder:")
                 self.output_folder = dpg.add_input_text(
                     default_value="..\\SMPectra_Data",
-                    width = 150
+                    width=150
                 )
                 self.browse_button = dpg.add_button(
                     label="Browse",
@@ -276,9 +276,11 @@ class SMPectraUI:
         max = np.max(y_limited)
         min = np.min(y_limited)
         dpg.set_axis_limits(self.intensity_axis, min, max)
+        dpg.set_axis_limits(self.wavelength_axis, lims[0], lims[1])
 
     def _save_spectrum(self):
-        save_path = dpg.get_value(self.output_folder) + "\\" +  dpg.get_value(self.output_file)
+        save_path = dpg.get_value(self.output_folder) + \
+            "\\" + dpg.get_value(self.output_file)
         print(f"Saving spectrum to {save_path}")
         normalised_spectrum = self.normalise_spectrum(self.spectrum)
         save_spectrum(save_path, normalised_spectrum,

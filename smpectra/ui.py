@@ -311,9 +311,9 @@ class SMPectraUI:
         for i in range(num_of_averages):
             dpg.set_value(self.status, f"Averaging Measurement: #{i+1}")
             sum_spectrum += self.spectrometer.spectrum()[1]
-        self.average_spectrum = [wavelengths, sum_spectrum/num_of_averages]
+        self.spectrum = [wavelengths, sum_spectrum/num_of_averages]
         dpg.set_value(self.status, "Averaging Measurement: Idle")
-        self.draw_spectrum(self.average_spectrum)
+        self.draw_spectrum(self.spectrum)
 
 
 def _file_saveas_callback(sender, app_data, output_file_path):

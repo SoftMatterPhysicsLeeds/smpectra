@@ -81,18 +81,7 @@ class SMPectraUI:
                 width=VIEWPORT_WIDTH/4,
                 height=(2*VIEWPORT_HEIGHT/3)/3
         ):
-            with dpg.group(horizontal=True):
-                self.scale_axes_button = dpg.add_button(
-                    label="Auto-scale x-axis",
-                    callback=self.scale_x_axis)
-                self.scale_axes_button = dpg.add_button(
-                    label="Auto-scale y-axis",
-                    callback=self.scale_y_axis)
-
-            with dpg.group(horizontal=True):
-                self.scale_axes_button = dpg.add_button(
-                    label="Auto-scale axes",
-                    callback=self.scale_axes)
+            
             with dpg.group(horizontal=True):
                 dpg.add_text("Folder:")
                 self.output_folder = dpg.add_input_text(

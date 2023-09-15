@@ -16,6 +16,7 @@ class SMPectraUI:
         self.setup_graph_window()
         self.setup_device_thickness_calculator_window()
 
+        self.first_time_normalising = True
         self.dark_state = None
         self.bright_state = None
         self.continuous_measurement = False
@@ -254,6 +255,9 @@ class SMPectraUI:
     def draw_spectrum(self, spectrum):
         if self.bright_state_set and self.dark_state_set:
             spectrum = self.normalise_spectrum(spectrum)
+            if self.first_time_normalising:
+                self.scale_axes()
+                self.first_time_normalising = False
 
         dpg.set_value(self.spectrum_graph, [
                       spectrum[0], spectrum[1]])

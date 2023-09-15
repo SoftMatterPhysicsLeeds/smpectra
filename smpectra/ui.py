@@ -266,17 +266,18 @@ class SMPectraUI:
         dpg.fit_axis_data(self.wavelength_axis)
 
     def scale_y_axis(self):
-        x, y = dpg.get_value(self.spectrum_graph)
-        x = np.array(x)
-        y = np.array(y)
-        lims = dpg.get_axis_limits(self.wavelength_axis)
-        x_limited = x[np.where(x > lims[0])]
-        y_limited = y[np.where(x > lims[0])]
-        y_limited = y_limited[np.where(x_limited < lims[1])]
-        max = np.max(y_limited)
-        min = np.min(y_limited)
-        dpg.set_axis_limits(self.intensity_axis, min, max)
-        dpg.set_axis_limits(self.wavelength_axis, lims[0], lims[1])
+        # x, y = dpg.get_value(self.spectrum_graph)
+        # x = np.array(x)
+        # y = np.array(y)
+        # lims = dpg.get_axis_limits(self.wavelength_axis)
+        # x_limited = x[np.where(x > lims[0])]
+        # y_limited = y[np.where(x > lims[0])]
+        # y_limited = y_limited[np.where(x_limited < lims[1])]
+        # max = np.max(y_limited)
+        # min = np.min(y_limited)
+        # dpg.set_axis_limits(self.intensity_axis, min, max)
+        # dpg.set_axis_limits(self.wavelength_axis, lims[0], lims[1])
+        dpg.fit_axis_data(self.intensity_axis)
 
     def _save_spectrum(self):
         save_path = dpg.get_value(self.output_folder) + \

@@ -76,12 +76,12 @@ class SMPectraUI:
                     label="Apply",
                     callback=self._set_integration_time)
         with dpg.window(
-                label="Graph Control",
+                label="Export spectrum",
                 pos=[0, 2*(2*VIEWPORT_HEIGHT/3)/3],
                 width=VIEWPORT_WIDTH/4,
                 height=(2*VIEWPORT_HEIGHT/3)/3
         ):
-            
+
             with dpg.group(horizontal=True):
                 dpg.add_text("Folder:")
                 self.output_folder = dpg.add_input_text(
@@ -164,10 +164,10 @@ class SMPectraUI:
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/3):
             self.find_lambda_lines_button = dpg.add_button(
-                    label="Find lambda lines",
-                    callback=self.find_lambda_lines,
-                    width=300
-                    )
+                label="Find lambda lines",
+                callback=self.find_lambda_lines,
+                width=300
+            )
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'lambda 1 (nm):':>14} ")
                 self.lambda1_input = dpg.add_input_float(

@@ -176,7 +176,8 @@ class SMPectraUI:
                         height=VIEWPORT_HEIGHT/3):
             self.find_lambda_lines_button = dpg.add_button(
                     label="Find lambda lines",
-                    callback=self.find_lambda_lines
+                    callback=self.find_lambda_lines,
+                    width=300
                     )
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'lambda 1 (nm):':>14} ")

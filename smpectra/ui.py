@@ -174,6 +174,10 @@ class SMPectraUI:
                         pos=[0, 2*VIEWPORT_HEIGHT/3],
                         width=VIEWPORT_WIDTH/4,
                         height=VIEWPORT_HEIGHT/3):
+            self.find_lambda_lines_button = dpg.add_button(
+                    label="Find lambda lines",
+                    callback=self.find_lambda_lines
+                    )
             with dpg.group(horizontal=True):
                 dpg.add_text(f"{'lambda 1 (nm):':>14} ")
                 self.lambda1_input = dpg.add_input_float(
@@ -196,6 +200,11 @@ class SMPectraUI:
             with dpg.group(horizontal=True):
                 dpg.add_text("d (nm): ")
                 self.d_result_label = dpg.add_text("0")
+
+    def find_lambda_lines(self):
+        lims = dpg.get_axis_limits(self.wavelength_axis)
+        dpg.set_value(self.lambda1_line, lims[0])
+        dpg.set_value(self.lambda2_line, lims[1])
 
     def lambda1_input_changed(self):
         val = dpg.get_value(self.lambda1_input)

@@ -1,12 +1,13 @@
 import dearpygui.dearpygui as dpg
 from smpectra.ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
-
+from pathlib import Path
 
 def main():
     dpg.create_context()
-    
+    font_path = Path("./assets/IosevkaNerdFont-Regular.ttf")
     with dpg.font_registry():
-        default_font = dpg.add_font(".\\assets\\IosevkaNerdFont-Regular.ttf", 18)
+        default_font = dpg.add_font(
+            font_path, 18)
 
     dpg.bind_font(default_font)
     dpg.create_viewport(

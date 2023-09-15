@@ -25,7 +25,9 @@ class SMPectraUI:
         self.bright_state_set = False
         self.integration_time = 100000
         try:
-            self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
+            # connect to specific serial number - probably not necessary
+            # self.spectrometer = Spectrometer.from_serial_number("HR4C3262") 
+            self.spectrometer = Spectrometer.from_first_available()
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
             self.start_continuous_measurement()

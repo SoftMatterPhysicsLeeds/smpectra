@@ -204,7 +204,7 @@ class SMPectraUI:
 
     def find_lambda_lines(self):
         lims = dpg.get_axis_limits(self.wavelength_axis)
-        dpg.set_value(self.lambda1_line, lims[0]-10)
+        dpg.set_value(self.lambda1_line, lims[0]+10)
         dpg.set_value(self.lambda2_line, lims[1]-10)
 
     def lambda1_input_changed(self):

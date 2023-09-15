@@ -6,7 +6,7 @@ from seabreeze.spectrometers import Spectrometer
 from seabreeze.cseabreeze._wrapper import SeaBreezeError
 from smpectra.utils import save_spectrum
 VIEWPORT_WIDTH = 1280
-DRAW_HEIGHT = 800
+DRAW_HEIGHT = 850
 VIEWPORT_HEIGHT = DRAW_HEIGHT - 40
 
 
@@ -26,7 +26,7 @@ class SMPectraUI:
         self.integration_time = 100000
         try:
             # connect to specific serial number - probably not necessary
-            # self.spectrometer = Spectrometer.from_serial_number("HR4C3262") 
+            # self.spectrometer = Spectrometer.from_serial_number("HR4C3262")
             self.spectrometer = Spectrometer.from_first_available()
             self.spectrometer_attached = True
             self.spectrometer.integration_time_micros(self.integration_time)
@@ -70,7 +70,7 @@ class SMPectraUI:
             with dpg.group(horizontal=True):
                 dpg.add_text("Integration\n time (us): ")
                 self.int_time_input = dpg.add_input_int(
-                    default_value=100000, width=100)
+                    default_value=100000, width=150)
                 self.apply_int_time = dpg.add_button(
                     label="Apply",
                     callback=self._set_integration_time)
@@ -93,12 +93,18 @@ class SMPectraUI:
                     label="Auto-scale axes",
                     callback=self.scale_axes)
             with dpg.group(horizontal=True):
-                self.output_file_path = dpg.add_input_text(
-                    default_value="results.txt"
+                dpg.add_text("Folder:")
+                self.output_folder = dpg.add_input_text(
+                    default_value="..\\Data\\"
                 )
                 self.browse_button = dpg.add_button(
                     label="Browse",
                     callback=lambda: dpg.show_item("file_dialog_id")
+                )
+            with dpg.group(horizontal=True):
+                dpg.add_text("Filename:")
+                self.output_file = dpg.add_input_text(
+                    default_value="data.txt"
                 )
 
             with dpg.group(horizontal=True):
@@ -106,13 +112,13 @@ class SMPectraUI:
                     label="Save Spectrum",
                     callback=self._save_spectrum,
                     width=300,
-                    height=50)
+                    height=25)
 
             with dpg.file_dialog(
-                directory_selector=False,
+                directory_selector=True,
                 show=False,
                 callback=_file_saveas_callback,
-                user_data=self.output_file_path,
+                user_data=self.output_folder,
                 id="file_dialog_id",
                 width=700,
                 height=400,
@@ -271,7 +277,8 @@ class SMPectraUI:
         dpg.set_axis_limits(self.intensity_axis, min, max)
 
     def _save_spectrum(self):
-        save_path = dpg.get_value(self.output_file_path)
+        save_path = dpg.get_value(self.output_folder) + "\\" +  dpg.get_value(self.output_file)
+        print(save_path)
         normalised_spectrum = self.normalise_spectrum(self.spectrum)
         save_spectrum(save_path, normalised_spectrum,
                       self.spectrum, self.dark_state, self.bright_state, self.dark_state_set)

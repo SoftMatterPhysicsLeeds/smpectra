@@ -3,6 +3,8 @@ from smpectra.ui import VIEWPORT_WIDTH, DRAW_HEIGHT, SMPectraUI
 from pathlib import Path
 
 def main():
+
+    Path("../SMPectra_Data").mkdir(parents=True, exist_ok=True)
     dpg.create_context()
     font_path = Path("./assets/IosevkaNerdFont-Regular.ttf")
     with dpg.font_registry():

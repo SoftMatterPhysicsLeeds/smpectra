@@ -95,7 +95,7 @@ class SMPectraUI:
             with dpg.group(horizontal=True):
                 dpg.add_text("Folder:")
                 self.output_folder = dpg.add_input_text(
-                    default_value="..\\Data\\"
+                    default_value="..\\Data"
                 )
                 self.browse_button = dpg.add_button(
                     label="Browse",

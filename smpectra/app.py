@@ -14,7 +14,6 @@ def main():
     with dpg.font_registry():
         default_font = dpg.add_font(
             font_path, 18)
-
     dpg.bind_font(default_font)
     dpg.create_viewport(
         title="SMPectra",

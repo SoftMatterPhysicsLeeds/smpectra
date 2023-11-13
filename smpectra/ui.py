@@ -34,13 +34,32 @@ class SMPectraUI:
             self.start_continuous_measurement()
         except SeaBreezeError:
             print("Could not find spectrometer")
+    def draw_children(self, viewport_width, viewport_height):
+        dpg.configure_item(self.spectrometer_control_window,
+                           pos= [0, 0],
+                           width=viewport_width/4,
+                           height=2*(2*viewport_height/3)/3)
+        
+        dpg.configure_item(self.export_spectrum_window,
+                           pos= [0,2*(2*viewport_height/3)/3],
+                           width=viewport_width/4,
+                           height=(2*viewport_height/3)/3)
 
+        dpg.configure_item(self.graph_window,
+                            pos = [viewport_width/4,0],
+                            width=3*viewport_width/4 - 15,
+                            height=viewport_height)
+
+        dpg.configure_item(self.device_thickness_calculator_window,
+                            pos = [0, 2*viewport_height/3],
+                            width=viewport_width/4,
+                            height=viewport_height/3)
     def setup_control_windows(self):
         with dpg.window(label="Spectrometer Control",
                         pos=[0, 0],
                         width=VIEWPORT_WIDTH/4,
                         height=2*(2*VIEWPORT_HEIGHT/3)/3
-                        ):
+                        ) as self.spectrometer_control_window:
             with dpg.group(horizontal=True):
                 dpg.add_text("Status: ")
                 self.status = dpg.add_text("Continuous Measurement")
@@ -80,7 +99,7 @@ class SMPectraUI:
                 pos=[0, 2*(2*VIEWPORT_HEIGHT/3)/3],
                 width=VIEWPORT_WIDTH/4,
                 height=(2*VIEWPORT_HEIGHT/3)/3
-        ):
+        ) as self.export_spectrum_window:
 
             with dpg.group(horizontal=True):
                 dpg.add_text("Folder:")
@@ -120,7 +139,7 @@ class SMPectraUI:
         with dpg.window(label="Spectrum",
                         pos=[VIEWPORT_WIDTH/4, 0],
                         width=3*VIEWPORT_WIDTH/4 - 15,
-                        height=VIEWPORT_HEIGHT):
+                        height=VIEWPORT_HEIGHT) as self.graph_window:
 
             with dpg.plot(height=VIEWPORT_HEIGHT - 50,
                           width=3*VIEWPORT_WIDTH/4 - 10,
@@ -162,7 +181,7 @@ class SMPectraUI:
         with dpg.window(label="Device Thickness Calculator",
                         pos=[0, 2*VIEWPORT_HEIGHT/3],
                         width=VIEWPORT_WIDTH/4,
-                        height=VIEWPORT_HEIGHT/3):
+                        height=VIEWPORT_HEIGHT/3) as self.device_thickness_calculator_window:
             self.find_lambda_lines_button = dpg.add_button(
                 label="Find lambda lines",
                 callback=self.find_lambda_lines,

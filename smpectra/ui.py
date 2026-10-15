@@ -382,6 +382,8 @@ class SMPectraUI:
             self.dark_state,
             self.bright_state,
             self.dark_state_set,
+            self.bright_state_set,
+            self.transmittance,
         )
 
     def _set_integration_time(self):

@@ -34,7 +34,10 @@ def main():
             ui.draw_children(viewport_width, viewport_height)
 
         if ui.bright_state_set and ui.dark_state_set:
-            ui.set_transmission_mode_button.show = True
+            dpg.configure_item(ui.set_transmission_mode_button, show=True)
+        else:
+            dpg.configure_item(ui.set_transmission_mode_button, show=False)
+
         dpg.render_dearpygui_frame()
     dpg.destroy_context()
 

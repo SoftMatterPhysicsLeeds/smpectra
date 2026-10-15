@@ -29,9 +29,9 @@ def main():
             viewport_width != dpg.get_viewport_client_width()
             or viewport_height != dpg.get_viewport_client_height()
         ):
-            ui.draw_children(viewport_width, viewport_height)
             viewport_width = dpg.get_viewport_client_width()
             viewport_height = dpg.get_viewport_client_height()
+            ui.draw_children(viewport_width, viewport_height)
 
         # ui.bright_state_set = True
         # ui.dark_state_set = True

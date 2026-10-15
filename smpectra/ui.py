@@ -77,6 +77,7 @@ class SMPectraUI:
             no_move=True,
             no_resize=True,
             no_collapse=True,
+            no_close=True,
         ) as self.spectrometer_control_window:
             with dpg.group(horizontal=True):
                 dpg.add_text("Status: ")
@@ -138,6 +139,7 @@ class SMPectraUI:
             no_move=True,
             no_resize=True,
             no_collapse=True,
+            no_close=True,
         ) as self.export_spectrum_window:
             with dpg.group(horizontal=True):
                 dpg.add_text("Folder:")
@@ -180,6 +182,7 @@ class SMPectraUI:
                 no_move=True,
                 no_resize=True,
                 no_collapse=True,
+                no_close=True,
             ) as self.graph_window,
             dpg.plot(
                 height=-1,
@@ -225,6 +228,10 @@ class SMPectraUI:
             pos=[0, 2 * VIEWPORT_HEIGHT / 3],
             width=VIEWPORT_WIDTH / 4,
             height=VIEWPORT_HEIGHT / 3,
+            no_move=True,
+            no_resize=True,
+            no_collapse=True,
+            no_close=True,
         ) as self.device_thickness_calculator_window:
             self.find_lambda_lines_button = dpg.add_button(
                 label="Find lambda lines", callback=self.find_lambda_lines, width=300

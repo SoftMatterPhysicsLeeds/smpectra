@@ -129,7 +129,7 @@ class SMPectraUI:
                     callback=self.set_transmission_mode,
                     width=200,
                     height=25,
-                    # show=False,
+                    show=False,
                 )
         with dpg.window(
             label="Export spectrum",
